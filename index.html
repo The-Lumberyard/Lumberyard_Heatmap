@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Lumberyard Heat Map</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; padding: 1rem; }
+    h1 { text-align: center; }
+    .controls { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    #slider { margin: 1rem 0; }
+    .slider-labels { display: flex; justify-content: space-between;  width: 100%; font-size: 0.9em; margin-bottom: 1rem; font-weight: bold; }
+.slider-labels span {
+  flex: 1 1 33%;
+  min-width: 48px;
+}
+.slider-labels span:nth-child(2) {
+  text-align: center;
+}
+.slider-labels span:last-child {
+  text-align: right;
+}
+#slider {
+  margin-top: 0.6em;
+  margin-bottom: 0.1em;
+}
+
+#mode-controls {
+  display: inline-block;
+  margin-left: 1em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+    #store-container { position: relative; width: 100%; max-width: 2048px; margin: 0 auto; }
+    .store-image { width: 100%; height: auto; display: block; }
+    .bin { position: absolute; border: 1px solid #333; text-align: center; color: black; display: flex; justify-content: center; align-items: center; font-size: 0.8vw; font-weight: bold; box-sizing: border-box; background-color: lightgray; }
+    .rotated-text { transform: rotate(90deg); transform-origin: center; white-space: nowrap; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+    .tooltip {
+      position: absolute;
+      background-color: #333;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.1s;
+      z-index: 1000;
+    }
+
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  font-size: 0.95em;
+  min-height: 40px;
+  transition: all 0.25s;
+}
+
+@media (max-width: 600px) {
+  .controls {
+    font-size: 0.86em;
+    padding: 0.35rem 0.5rem;
+    gap: 0.4rem 0.5rem;
+  }
+}
+  </style>
+</head>
+<body>
+  <h1>The Lumberyard Heat Map</h1>
+  <div id="rangeLabel" style="font-weight: bold; margin-top: 1rem; text-align: center;"></div>
+
+
+ <div class="controls">
+  <label for="dataType">Select Data Type:</label>
+  <select id="dataType"></select>
+  <label for="dateInput">Select Date:</label>
+  <input type="text" id="dateInput" />
+  <!-- Mode radio buttons will be injected by JS -->
+ <div id="mode-controls" style="margin-left: 1em; display: inline-block; vertical-align: middle;"></div>
+  
+  <div style="flex-basis: 100%; height: 0;"></div> <!-- Force slider/labels to new line -->
+
+  <div style="width: 100%;">
+    <div id="slider"></div>
+    <div class="slider-labels">
+      <span id="val-low">&le; 0</span>
+      <span id="val-mid">&le; 0</span>
+      <span id="val-high">&le; 0</span>
+    </div>
+  </div>
+</div>
+
+  <div id="store-container">
+    <img src="09-114_WHITE_MOUNTAIN_BIN_LOCATIONS.jpg" alt="Store Layout" class="store-image" />
+  </div>
+  <div id="tooltip" class="tooltip"></div>
+  <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script src="DateRangeCode.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>
+
+
+<!-- cd "C:\Users\Travis Office\Desktop\Hogman Lumber\Heber Store\Heat Map Project"-->
+<!-- py generate_bin_json.py-->
+<!-- py generate_bin_json.py 2025-04-03-->
+<!--If it works, you’ll see a message like: ✅ Created bin-data-latest.json with 112 entries.-->
+<!-- py -m http.server 8000-->
+<!-- http://localhost:8000-->
+<!-- [ "2025-04-01", "2025-04-02", "2025-04-03", "2025-04-04", "latest" ]-->
